@@ -7,19 +7,16 @@ public class Main {
 		/*Notes Section:
 		 * Done by Peter Gifford and Sam Behrens
 		 * 
-		 * So right now there is a tree called maze that has all the nodes connected with edges to each other
-		 * If something is a parent of another node there is an arraylist that holds it
+		 * Define Flow Free as CSP : Done - Sam Check
+		 * 		Variables : X sub(ij)  -- i is rox and j is column
+		 * 		Domain : { Set of letters present in the given graph }
+		 * 		Constraints : All spots must be only one color. (check this for wording before putting in report)
 		 * 
-		 * I used getters and setters because my old code had it. Its a little annoying but I'm just gonna role with it cause I think it makes it easier and cleaner
-		 * Also, the nodes are still linked back to the original maze so if you use setContent, the node placement in the maze will change along with it
+		 * Backtracking search : Not Done
 		 * 
-		 * totalMaze is the original grid of maze nodes and maze is the tree
+		 * Heuristics Chosen : None
 		 * 
-		 * A* = Done
-		 * Greedy First = Done
-		 * Depth First = Done
-		 * Breadth First = Done
-		 * Due Date: Monday, Oct8, Midnight
+		 * Report : Not Done
 		 * 
 		 * */
 
@@ -89,6 +86,9 @@ public class Main {
 						}
 
 					}
+					
+					
+					//algorithm here
 					
 					
 					for(int i = 0; i < yLength; i++) {
