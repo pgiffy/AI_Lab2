@@ -2,79 +2,6 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-	
-	public static boolean isSafe(char[][] board, int row, int col, char color) { 
-		if(board[row][col] == '_') {
-			return false;
-		}
-		char[] next = new char[4];
-		next[0] = board[row+1][col];
-		next[1] = board[row-1][col];
-		next[2] = board[row][col-1];
-		next[3] = board[row][col+1];
-		Arrays.sort(next);
-		boolean check = true;
-		for(char c : next) {
-			if(c == board[row][col]) check = false;
-		}
-		if(check) return false;
-		
-		boolean check2 = true;
-		for(int i  = 0; i < next.length-1; i++) if(next[i] == next[i+1]) check2 = true;
-
-		if(check2) return false;
-
-		// if there is no clash, it's safe 
-		return true; 
-	} 
-
-	public static boolean backTracking(char[][] board, char[] letters) { 
-	    int row = -1; 
-	    int col = -1; 
-	    boolean isEmpty = true; 
-	    for (int i = 0; i < letters.length; i++) 
-	    { 
-	        for (int j = 0; j < letters.length; j++)  
-	        { 
-	            if (board[i][j] == '_')  
-	            { 
-	                row = i; 
-	                col = j; 
-	                  
-	                // we still have some remaining 
-	                // missing values in Sudoku 
-	                isEmpty = false;  
-	                break; 
-	            } 
-	        } 
-	        if (!isEmpty) 
-	        { 
-	            break; 
-	        } 
-	    } 
-	  
-	    // no empty space left 
-	    if (isEmpty)  
-	    { 
-	        return true; 
-	    } 
-	  
-	   //enter letters
-	    
-	    for(char c : letters) {
-	    	if(isSafe(board,row,col,c)) {
-	    		board[row][col] = c;
-	    		if(backTracking(board, letters)) {
-	    			return true;
-	    		}else {
-	    			board[row][col] = '_';
-	    		}
-	    	}
-	    }
-	    
-	    
-	    return false; 
-	} 
 
 	public static void main(String[] args) {
 		/*Notes Section:
@@ -121,38 +48,66 @@ public class Main {
 					int lineIter = 0;
 
 					scan = new Scanner(gridFile);//reseting scanner to the top
-					char[][] totalMaze = new char[yLength][xLength];
+					Node[][] totalMaze = new Node[yLength][xLength];
 					while(scan.hasNext()) {
 						String currentLine = scan.nextLine();
 						perLineIter = 0;
 						for(char con : currentLine.toCharArray()) {
-							totalMaze[lineIter][perLineIter] = con;
+							totalMaze[lineIter][perLineIter] = new Node(idIter, con, perLineIter, lineIter);
 							idIter++;
 							perLineIter++;
 						}
 						lineIter++;
 						//totalMaze has nodes of all 
 					}
-					int iter = 0;
-					char[] leet = new char[10];
-					for(int i = 0; i < yLength; i++) {
-						for(int j = 0; j < xLength; j++) {
-							if(!Arrays.asList(leet).contains(totalMaze[i][j]) && totalMaze[i][j] != '_') {
-								leet[iter] = totalMaze[i][j];
-								iter++;
-							}
-						}	
-					}
-					int counter = 0;
-					for(char c : leet) {
-						if(c != 0) counter++;
-					}
-					char[] leeeet = new char[counter];
-					for(int i = 0; i < counter; i++) {
-						leeeet[i] = leet[i];
-					}
-					backTracking(totalMaze, leeeet);
 					
+					//generation of the "tree" should be called network or graph
+					Tree maze = new Tree();
+					for(int y = 0; y < yLength; y++) {
+						for(int x = 0; x < xLength; x++) {
+							Node current = totalMaze[y][x];
+							try {
+								//checking all cardinal directions since cant move diagonal
+								if(totalMaze[y+1][x] != null) {
+									current.friends.add(totalMaze[y+1][x]);
+									maze.addNode(totalMaze[y+1][x]);
+								}
+								if(totalMaze[y][x+1] != null) {
+									current.friends.add(totalMaze[y][x+1]);
+									maze.addNode(totalMaze[y][x+1]);
+								}
+								if(totalMaze[y-1][x] != null) {
+									current.friends.add(totalMaze[y-1][x]);
+									maze.addNode(totalMaze[y-1][x]);
+								}
+								if(totalMaze[y][x-1] != null) {
+									current.friends.add(totalMaze[y][x-1]);
+									maze.addNode(totalMaze[y][x-1]);
+								}
+							}catch(ArrayIndexOutOfBoundsException e) {
+							}
+						}
+					}
+					String temp = "";
+					ArrayList<Character> tempL = new ArrayList<>();
+					for(Node n : maze.nodes) {
+						if(!tempL.contains(n.content)) {
+							tempL.add(n.content);
+						}
+					}
+					for(Character c : tempL) {
+						temp += c;
+					}
+					char[] letters = temp.toCharArray();
+					
+					if (backTracking(maze, letters)) 
+				    { 
+				        System.out.println("cool");
+				    }  
+				    else
+				    { 
+				        System.out.println("No solution"); 
+				    } 
 
 					for(int i = 0; i < yLength; i++) {
 						for(int j = 0; j < xLength; j++) {
@@ -170,5 +125,57 @@ public class Main {
 		
 		
 }
+	public static boolean isSafe(Node current, char color) { 
+		if(current.content != '_') {
+			return false;
+		}
+		boolean check = true;
+		for(Node n : current.friends) {
+			if(n.content == color) { 
+				check = false;
+			}
+		}
+		if(check) return false;
+		
+//		boolean check2 = true;
+//		for(int i  = 0; i < next.length-1; i++) if(next[i] == next[i+1]) check2 = true;
+//
+//		if(check2) return false;
 
+		// if there is no clash, it's safe 
+		return true; 
+	} 
+
+	public static boolean backTracking(Tree board, char[] letters) { 
+		Node current = null;
+	    boolean isEmpty = true; 
+	    for (Node n : board.nodes) { 
+	            if (n.content == '_')  { 
+	            	current = n;
+	                // we still have some remaining missing values
+	                isEmpty = false;  
+	                break; 
+	            }
+	        if (!isEmpty) break; 
+	    }
+	    // no empty space left 
+	    if (isEmpty) return true; 
+
+	  
+	   //enter letters
+	    
+	    for(char c : letters) {
+	    	if(isSafe(current, c)) {
+	    		current.content = c;
+	    		if(backTracking(board, letters)) {
+	    			return true;
+	    		}else {
+	    			current.content = '_';
+	    		}
+	    	}
+	    }
+	    
+	    
+	    return false; 
+	} 
 }
