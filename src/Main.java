@@ -3,15 +3,78 @@ import java.io.*;
 
 public class Main {
 	
-	public boolean backtrack(char[][] grid, int sol){
-		//if there are 0 spots left then return
+	public static boolean isSafe(char[][] board, int row, int col, char color) { 
+		if(board[row][col] == '_') {
+			return false;
+		}
+		char[] next = new char[4];
+		next[0] = board[row+1][col];
+		next[1] = board[row-1][col];
+		next[2] = board[row][col-1];
+		next[3] = board[row][col+1];
+		Arrays.sort(next);
+		boolean check = true;
+		for(char c : next) {
+			if(c == board[row][col]) check = false;
+		}
+		if(check) return false;
 		
-		
-		
-		//there is no solution
-		return false;
-	}
-	
+		boolean check2 = true;
+		for(int i  = 0; i < next.length-1; i++) if(next[i] == next[i+1]) check2 = true;
+
+		if(check2) return false;
+
+		// if there is no clash, it's safe 
+		return true; 
+	} 
+
+	public static boolean backTracking(char[][] board, char[] letters) { 
+	    int row = -1; 
+	    int col = -1; 
+	    boolean isEmpty = true; 
+	    for (int i = 0; i < letters.length; i++) 
+	    { 
+	        for (int j = 0; j < letters.length; j++)  
+	        { 
+	            if (board[i][j] == '_')  
+	            { 
+	                row = i; 
+	                col = j; 
+	                  
+	                // we still have some remaining 
+	                // missing values in Sudoku 
+	                isEmpty = false;  
+	                break; 
+	            } 
+	        } 
+	        if (!isEmpty) 
+	        { 
+	            break; 
+	        } 
+	    } 
+	  
+	    // no empty space left 
+	    if (isEmpty)  
+	    { 
+	        return true; 
+	    } 
+	  
+	   //enter letters
+	    
+	    for(char c : letters) {
+	    	if(isSafe(board,row,col,c)) {
+	    		board[row][col] = c;
+	    		if(backTracking(board, letters)) {
+	    			return true;
+	    		}else {
+	    			board[row][col] = '_';
+	    		}
+	    	}
+	    }
+	    
+	    
+	    return false; 
+	} 
 
 	public static void main(String[] args) {
 		/*Notes Section:
@@ -69,9 +132,26 @@ public class Main {
 						}
 						lineIter++;
 						//totalMaze has nodes of all 
-						
 					}
-					
+					int iter = 0;
+					char[] leet = new char[10];
+					for(int i = 0; i < yLength; i++) {
+						for(int j = 0; j < xLength; j++) {
+							if(!Arrays.asList(leet).contains(totalMaze[i][j]) && totalMaze[i][j] != '_') {
+								leet[iter] = totalMaze[i][j];
+								iter++;
+							}
+						}	
+					}
+					int counter = 0;
+					for(char c : leet) {
+						if(c != 0) counter++;
+					}
+					char[] leeeet = new char[counter];
+					for(int i = 0; i < counter; i++) {
+						leeeet[i] = leet[i];
+					}
+					backTracking(totalMaze, leeeet);
 					
 
 					for(int i = 0; i < yLength; i++) {
