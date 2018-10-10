@@ -18,9 +18,10 @@ public class Main {
 		 * Done by Peter Gifford and Sam Behrens
 		 * 
 		 * Define Flow Free as CSP : Done - Sam Check
-		 * 		Variables : X sub(ij)  -- i is rox and j is column
-		 * 		Domain : { Set of letters present in the given graph }
-		 * 		Constraints : All spots must be only one color. (check this for wording before putting in report)
+		 * 		Variables : 	X sub(ij)  -- i is rox and j is column
+		 * 		Domain : 		{ Set of letters present in the given graph } - GOOD
+		 * 		Constraints : 	All spots must be only one color. (check this for wording before putting in report)
+		 * 				Maybe:	Each color must be touching another of its own color at least once but no more than two times
 		 * 
 		 * Backtracking search : Not Done
 		 * 
