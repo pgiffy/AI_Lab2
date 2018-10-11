@@ -15,7 +15,7 @@ public class Main {
 		 * 						(i,j) -> (i+1,j),(i-1,j),(i,j+1),(i,j-1) -> At least one of which must be the same as (i,j) but no more than two can be the same)
 		 * 						I'm not sure if I like how that is written but we have plenty of time to change it
 		 * 
-		 * Backtracking search : Not Done
+		 * Backtracking search : Just need to define quitting condition that all spaces are filled and *!*!*!*!**!All start and ends are connected/paths are full
 		 * 
 		 * Heuristics Chosen : None
 		 * 
@@ -66,32 +66,55 @@ public class Main {
 					for(int y = 0; y < yLength; y++) {
 						for(int x = 0; x < xLength; x++) {
 							Node current = totalMaze[y][x];
+							maze.nodes.add(current);
+								//checking all cardinal directions since can't move diagonal
+							//so i know this is dumb but its the fastest thing to type and think of at the moment so change it if you want
 							try {
-								//checking all cardinal directions since cant move diagonal
-								if(totalMaze[y+1][x] != null) {
-									current.friends.add(totalMaze[y+1][x]);
-									maze.addNode(totalMaze[y+1][x]);
-								}
-								if(totalMaze[y][x+1] != null) {
+							current.friends.add(totalMaze[y+1][x]);
+							maze.addNode(totalMaze[y+1][x]);
+							current.friends.add(totalMaze[y][x+1]);
+							maze.addNode(totalMaze[y][x+1]);
+							current.friends.add(totalMaze[y-1][x]);
+							maze.addNode(totalMaze[y-1][x]);
+							current.friends.add(totalMaze[y][x-1]);
+							maze.addNode(totalMaze[y][x-1]);
+							}catch(ArrayIndexOutOfBoundsException e) {
+								try {
 									current.friends.add(totalMaze[y][x+1]);
 									maze.addNode(totalMaze[y][x+1]);
-								}
-								if(totalMaze[y-1][x] != null) {
 									current.friends.add(totalMaze[y-1][x]);
 									maze.addNode(totalMaze[y-1][x]);
-								}
-								if(totalMaze[y][x-1] != null) {
 									current.friends.add(totalMaze[y][x-1]);
 									maze.addNode(totalMaze[y][x-1]);
-								}
-							}catch(ArrayIndexOutOfBoundsException e) {
+									}catch(ArrayIndexOutOfBoundsException r) {
+										try {
+											current.friends.add(totalMaze[y-1][x]);
+											maze.addNode(totalMaze[y-1][x]);
+											current.friends.add(totalMaze[y][x-1]);
+											maze.addNode(totalMaze[y][x-1]);
+											}catch(ArrayIndexOutOfBoundsException t) {
+												try {
+													current.friends.add(totalMaze[y][x-1]);
+													maze.addNode(totalMaze[y][x-1]);
+													}catch(ArrayIndexOutOfBoundsException u) {
+														
+													}
+											}
+									}
 							}
 						}
 					}
+					for(Node n : maze.nodes) {
+						Set<Node> temp = new HashSet<>();
+						temp.addAll(n.friends);
+						n.friends.clear();
+						n.friends.addAll(temp);
+					}
+					
 					String temp = "";
 					ArrayList<Character> tempL = new ArrayList<>();
 					for(Node n : maze.nodes) {
-						if(!tempL.contains(n.content)) {
+						if(!tempL.contains(n.content) && n.content != '_') {
 							tempL.add(n.content);
 						}
 					}
@@ -102,7 +125,7 @@ public class Main {
 					
 					if (backTracking(maze, letters)) 
 				    { 
-				        System.out.println("cool");
+				        System.out.println("LEET WILL NEVER DIE ITS HIDDEN IN THIS PROGRAM SOMEWHERE");
 				    }  
 				    else
 				    { 
@@ -111,16 +134,13 @@ public class Main {
 
 					for(int i = 0; i < yLength; i++) {
 						for(int j = 0; j < xLength; j++) {
-							out.print(totalMaze[i][j]);
+							out.print(totalMaze[i][j].content);
 						}
 						out.println();
 					}
 
-				
-			
 			out.close();//close file
 		}catch(FileNotFoundException e) {
-			System.out.println(e);
 		}
 		
 		
@@ -137,10 +157,12 @@ public class Main {
 		}
 		if(check) return false;
 		
-//		boolean check2 = true;
-//		for(int i  = 0; i < next.length-1; i++) if(next[i] == next[i+1]) check2 = true;
+//		int count = 0;
+//		for(Node n : current.friends) {
+//			if(n.content == color) count++;	
+//		}
 //
-//		if(check2) return false;
+//		if(count > 2) return false;
 
 		// if there is no clash, it's safe 
 		return true; 
@@ -149,6 +171,7 @@ public class Main {
 	public static boolean backTracking(Tree board, char[] letters) { 
 		Node current = null;
 	    boolean isEmpty = true; 
+	    //need to also check starts and ends are connected
 	    for (Node n : board.nodes) { 
 	            if (n.content == '_')  { 
 	            	current = n;
@@ -174,8 +197,6 @@ public class Main {
 	    		}
 	    	}
 	    }
-	    
-	    
 	    return false; 
 	} 
 }
