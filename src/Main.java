@@ -15,6 +15,9 @@ public class Main {
 		 * 						(i,j) -> (i+1,j),(i-1,j),(i,j+1),(i,j-1) -> At least one of which must be the same as (i,j) but no more than two can be the same)
 		 * 						I'm not sure if I like how that is written but we have plenty of time to change it
 		 * 
+		 * FUN FACT: This is not a recursive back tracking problem. I'm changing it to something else
+		 * 
+		 * 
 		 * Backtracking search : Just need to define quitting condition that all spaces are filled and *!*!*!*!**!All start and ends are connected/paths are full
 		 * 
 		 * Heuristics Chosen : None
@@ -26,7 +29,7 @@ public class Main {
 		Scanner scan;
 		String fileOut = "output.txt";
 		PrintWriter out;
-		String fileName = "5x5maze.txt";
+		String fileName = "7x7maze.txt";
 
 		try {
 			out = new PrintWriter(new File(fileOut));
@@ -54,6 +57,7 @@ public class Main {
 						perLineIter = 0;
 						for(char con : currentLine.toCharArray()) {
 							totalMaze[lineIter][perLineIter] = new Node(idIter, con, perLineIter, lineIter);
+							if(totalMaze[lineIter][perLineIter].content != '_') totalMaze[lineIter][perLineIter].start = true;
 							idIter++;
 							perLineIter++;
 						}
@@ -125,7 +129,7 @@ public class Main {
 					
 					if (backTracking(maze, letters)) 
 				    { 
-				        System.out.println("LEET WILL NEVER DIE ITS HIDDEN IN THIS PROGRAM SOMEWHERE");
+				        System.out.println("Found Solution");
 				    }  
 				    else
 				    { 
@@ -149,20 +153,55 @@ public class Main {
 		if(current.content != '_') {
 			return false;
 		}
-		boolean check = true;
-		for(Node n : current.friends) {
-			if(n.content == color) { 
-				check = false;
-			}
-		}
-		if(check) return false;
 		
-//		int count = 0;
+//		boolean check = true;
 //		for(Node n : current.friends) {
-//			if(n.content == color) count++;	
+//			if(n.content == color) { 
+//				check = false;
+//			}
 //		}
-//
-//		if(count > 2) return false;
+//		if(check) return false;
+//		
+		//add
+		//if a node is surrounded on three sides and its not an end node then it is not safe
+
+		int checker = 0;
+		int count = 0;
+		for(Node n : current.friends) {
+			if(n.content == color || n.content == '_') {
+				checker = 1;
+			}else {
+				for(Node e : n.friends) {
+					if(e == current) {
+						continue;
+					}
+					if(e.start) {
+						continue;
+					}
+					
+					if(e.content == n.content) {
+						checker = 1;
+						break;
+					}
+					if(e.content == '_') {
+						checker = 1;
+						break;
+					}
+				}
+			}
+			if(checker == 0) {				
+				return false;
+			}
+			checker = 0;
+		}
+		
+		
+		
+		for(Node n : current.friends) {
+			if(n.content == color) count++;	
+		}
+
+		if(count > 2) return false;
 
 		// if there is no clash, it's safe 
 		return true; 
@@ -181,10 +220,11 @@ public class Main {
 	            }
 	        if (!isEmpty) break; 
 	    }
+
+	    
 	    // no empty space left 
 	    if (isEmpty) return true; 
 
-	  
 	   //enter letters
 	    
 	    for(char c : letters) {
