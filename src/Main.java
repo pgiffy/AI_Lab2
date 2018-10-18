@@ -127,7 +127,13 @@ public class Main {
 					}
 					char[] letters = temp.toCharArray();
 					
-					if (backTracking(maze, letters)) 
+					for(Node n : maze.nodes) {
+						n.setCharacters(letters);
+					}
+					
+					//tack on the letters to every node rather than the loops
+					
+					if (backTracking(maze)) 
 				    { 
 				        System.out.println("Found Solution");
 				    }  
@@ -154,6 +160,45 @@ public class Main {
 			return false;
 		}
 		
+		int checker = 0;
+		int count = 0;
+		for(Node n : current.friends) {
+			if(n.content == '_') {
+				continue;
+			}
+			if(n.content == color) {
+				checker += 1;
+			}
+				for(Node e : n.friends) {
+					if(e == current) {
+						continue;
+					}
+					if(e.content == n.content) {
+						checker += 1;
+						continue;
+					}
+					if(e.content == '_') {
+						checker += 1;
+						continue;
+					}
+				}
+			if(n.start && checker == 0) {
+				return false;
+			}
+			if(!n.start && checker < 2) {
+				return false;
+			}
+			checker = 0;
+		}
+		
+		
+		
+//		for(Node n : current.friends) {
+//			if(n.content == color) count++;	
+//		}
+//
+//		if(count > 2) return false;
+
 //		boolean check = true;
 //		for(Node n : current.friends) {
 //			if(n.content == color) { 
@@ -162,52 +207,14 @@ public class Main {
 //		}
 //		if(check) return false;
 //		
-		//add
-		//if a node is surrounded on three sides and its not an end node then it is not safe
 
-		int checker = 0;
-		int count = 0;
-		for(Node n : current.friends) {
-			if(n.content == color || n.content == '_') {
-				checker = 1;
-			}else {
-				for(Node e : n.friends) {
-					if(e == current) {
-						continue;
-					}
-					if(e.start) {
-						continue;
-					}
-					
-					if(e.content == n.content) {
-						checker = 1;
-						break;
-					}
-					if(e.content == '_') {
-						checker = 1;
-						break;
-					}
-				}
-			}
-			if(checker == 0) {				
-				return false;
-			}
-			checker = 0;
-		}
 		
 		
-		
-		for(Node n : current.friends) {
-			if(n.content == color) count++;	
-		}
-
-		if(count > 2) return false;
-
 		// if there is no clash, it's safe 
 		return true; 
 	} 
 
-	public static boolean backTracking(Tree board, char[] letters) { 
+	public static boolean backTracking(Tree board) { 
 		Node current = null;
 	    boolean isEmpty = true; 
 	    //need to also check starts and ends are connected
@@ -227,10 +234,10 @@ public class Main {
 
 	   //enter letters
 	    
-	    for(char c : letters) {
+	    for(char c : current.letters) {// personalize data
 	    	if(isSafe(current, c)) {
 	    		current.content = c;
-	    		if(backTracking(board, letters)) {
+	    		if(backTracking(board)) {
 	    			return true;
 	    		}else {
 	    			current.content = '_';
