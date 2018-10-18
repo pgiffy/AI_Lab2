@@ -29,7 +29,7 @@ public class Main {
 		Scanner scan;
 		String fileOut = "output.txt";
 		PrintWriter out;
-		String fileName = "7x7maze.txt";
+		String fileName = "8x8maze.txt";
 
 		try {
 			out = new PrintWriter(new File(fileOut));
@@ -193,22 +193,12 @@ public class Main {
 		
 		
 		
-//		for(Node n : current.friends) {
-//			if(n.content == color) count++;	
-//		}
-//
-//		if(count > 2) return false;
+		for(Node n : current.friends) {
+			if(n.content == current.content) count++;	
+			if(count > 2) return false;
+			count = 0;
+		}
 
-//		boolean check = true;
-//		for(Node n : current.friends) {
-//			if(n.content == color) { 
-//				check = false;
-//			}
-//		}
-//		if(check) return false;
-//		
-
-		
 		
 		// if there is no clash, it's safe 
 		return true; 
