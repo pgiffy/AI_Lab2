@@ -41,7 +41,7 @@ public class Main {
 					scan = new Scanner(gridFile);
 					int xLength = 0;
 					int yLength = 0;//adjusting for reading first line for x
-					while(scan.hasNextLine()) {
+					while (scan.hasNextLine()) {
 						xLength = scan.nextLine().length();
 						yLength++;
 					}
@@ -52,10 +52,10 @@ public class Main {
 
 					scan = new Scanner(gridFile);//reseting scanner to the top
 					Node[][] totalMaze = new Node[yLength][xLength];
-					while(scan.hasNext()) {
+					while (scan.hasNext()) {
 						String currentLine = scan.nextLine();
 						perLineIter = 0;
-						for(char con : currentLine.toCharArray()) {
+						for (char con : currentLine.toCharArray()) {
 							totalMaze[lineIter][perLineIter] = new Node(idIter, con, perLineIter, lineIter);
 							if(totalMaze[lineIter][perLineIter].content != '_') totalMaze[lineIter][perLineIter].start = true;
 							idIter++;
@@ -67,8 +67,8 @@ public class Main {
 					
 					//generation of the "tree" should be called network or graph
 					Tree maze = new Tree();
-					for(int y = 0; y < yLength; y++) {
-						for(int x = 0; x < xLength; x++) {
+					for (int y = 0; y < yLength; y++) {
+						for (int x = 0; x < xLength; x++) {
 							Node current = totalMaze[y][x];
 							maze.nodes.add(current);
 								//checking all cardinal directions since can't move diagonal
@@ -82,7 +82,7 @@ public class Main {
 							maze.addNode(totalMaze[y-1][x]);
 							current.friends.add(totalMaze[y][x-1]);
 							maze.addNode(totalMaze[y][x-1]);
-							}catch(ArrayIndexOutOfBoundsException e) {
+							} catch(ArrayIndexOutOfBoundsException e) {
 								try {
 									current.friends.add(totalMaze[y][x+1]);
 									maze.addNode(totalMaze[y][x+1]);
@@ -90,17 +90,17 @@ public class Main {
 									maze.addNode(totalMaze[y-1][x]);
 									current.friends.add(totalMaze[y][x-1]);
 									maze.addNode(totalMaze[y][x-1]);
-									}catch(ArrayIndexOutOfBoundsException r) {
+									} catch(ArrayIndexOutOfBoundsException r) {
 										try {
 											current.friends.add(totalMaze[y-1][x]);
 											maze.addNode(totalMaze[y-1][x]);
 											current.friends.add(totalMaze[y][x-1]);
 											maze.addNode(totalMaze[y][x-1]);
-											}catch(ArrayIndexOutOfBoundsException t) {
+											} catch(ArrayIndexOutOfBoundsException t) {
 												try {
 													current.friends.add(totalMaze[y][x-1]);
 													maze.addNode(totalMaze[y][x-1]);
-													}catch(ArrayIndexOutOfBoundsException u) {
+													} catch(ArrayIndexOutOfBoundsException u) {
 														
 													}
 											}
@@ -108,7 +108,7 @@ public class Main {
 							}
 						}
 					}
-					for(Node n : maze.nodes) {
+					for (Node n : maze.nodes) {
 						Set<Node> temp = new HashSet<>();
 						temp.addAll(n.friends);
 						n.friends.clear();
@@ -117,32 +117,30 @@ public class Main {
 					
 					String temp = "";
 					ArrayList<Character> tempL = new ArrayList<>();
-					for(Node n : maze.nodes) {
+					for (Node n : maze.nodes) {
 						if(!tempL.contains(n.content) && n.content != '_') {
 							tempL.add(n.content);
 						}
 					}
-					for(Character c : tempL) {
+					for (Character c : tempL) {
 						temp += c;
 					}
 					char[] letters = temp.toCharArray();
 					
-					for(Node n : maze.nodes) {
+					for (Node n : maze.nodes) {
 						n.setCharacters(letters);
 					}
 					
 					//tack on the letters to every node rather than the loops
 					
-					if (backTracking(maze)) 
-				    { 
+					if (backTracking(maze)) { 
 				        System.out.println("Found Solution");
 				    }  
-				    else
-				    { 
+				    else { 
 				        System.out.println("No solution"); 
 				    } 
 
-					for(int i = 0; i < yLength; i++) {
+					for (int i = 0; i < yLength; i++) {
 						for(int j = 0; j < xLength; j++) {
 							out.print(totalMaze[i][j].content);
 						}
@@ -150,42 +148,42 @@ public class Main {
 					}
 
 			out.close();//close file
-		}catch(FileNotFoundException e) {
+		} catch(FileNotFoundException e) {
 		}
 		
 		
 }
 	public static boolean isSafe(Node current, char color) { 
-		if(current.content != '_') {
+		if (current.content != '_') {
 			return false;
 		}
 		
 		int checker = 0;
 		int count = 0;
-		for(Node n : current.friends) {
-			if(n.content == '_') {
+		for (Node n : current.friends) {
+			if (n.content == '_') {
 				continue;
 			}
-			if(n.content == color) {
+			if (n.content == color) {
 				checker += 1;
 			}
-				for(Node e : n.friends) {
-					if(e == current) {
+				for (Node e : n.friends) {
+					if (e == current) {
 						continue;
 					}
-					if(e.content == n.content) {
+					if (e.content == n.content) {
 						checker += 1;
 						continue;
 					}
-					if(e.content == '_') {
+					if (e.content == '_') {
 						checker += 1;
 						continue;
 					}
 				}
-			if(n.start && checker == 0) {
+			if (n.start && checker == 0) {
 				return false;
 			}
-			if(!n.start && checker < 2) {
+			if (!n.start && checker < 2) {
 				return false;
 			}
 			checker = 0;
@@ -193,9 +191,9 @@ public class Main {
 		
 		
 		
-		for(Node n : current.friends) {
-			if(n.content == current.content) count++;	
-			if(count > 2) return false;
+		for (Node n : current.friends) {
+			if (n.content == current.content) count++;	
+			if (count > 2) return false;
 			count = 0;
 		}
 
@@ -224,12 +222,12 @@ public class Main {
 
 	   //enter letters
 	    
-	    for(char c : current.letters) {// personalize data
-	    	if(isSafe(current, c)) {
+	    for (char c : current.letters) {// personalize data
+	    	if (isSafe(current, c)) {
 	    		current.content = c;
-	    		if(backTracking(board)) {
+	    		if (backTracking(board)) {
 	    			return true;
-	    		}else {
+	    		} else {
 	    			current.content = '_';
 	    		}
 	    	}
