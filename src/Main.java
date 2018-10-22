@@ -29,7 +29,7 @@ public class Main {
 		Scanner scan;
 		String fileOut = "output.txt";
 		PrintWriter out;
-		String fileName = "9x9maze.txt";
+		String fileName = "5x5maze.txt";
 
 		try {
 			out = new PrintWriter(new File(fileOut));
@@ -45,7 +45,6 @@ public class Main {
 						xLength = scan.nextLine().length();
 						yLength++;
 					}
-					int size = yLength*xLength;
 					int idIter = 0;
 					int perLineIter = 0;
 					int lineIter = 0;
@@ -160,63 +159,86 @@ public class Main {
 		}
 		
 		int checker = 0;
-
+		int count = 0;
 		for(Node n : current.friends) {
 			boolean ch = true;
-			int count = 0;
-			if(n.content == '_') { // all this stuff i checking for corner issues
-				for(Node g : n.friends) {
-					if(g.content == '_' && g != current) {
-						ch = false;
-						break;
-					}
-					if(g.content == color) {
-						ch = false;
-						break;
-					}
-					if(!g.start) {
-						count++;
-					}
-				}
-				if(ch && count == 1 ) {
-					return false;
-				}
+			if (n.content == '_') { // all this stuff i checking for corner issues
+//				for (Node g : n.friends) {
+//					if (g.content == '_' && g != current) {
+//						ch = false;
+//						break;
+//					}
+//					if (g.content == color) {
+//						ch = false;
+//						break;
+//					}
+//					if (!g.start) {
+//						count++;
+//					}
+//				}
+//				if (ch && count == 0) {
+//					return false;
+//				}
 				continue;
 			}
+			
+			//add check for the spot itself is safe
+			
+			
 			if (n.content == color) {
-
-				checker += 1;
+				checker++;
+				count++;
 			}
-				for (Node e : n.friends) {
-					if (e == current) {
-						continue;
-					}
-					if (e.content == n.content) {
-						checker += 1;
-						continue;
-					}
-					if (e.content == '_') {
-						checker += 1;
-						continue;
-					}
+			for (Node e : n.friends) {
+				if (e == current) {
+					continue;
 				}
-			if (n.start && checker == 0) {
+				if (e.content == n.content) {
+					checker++;
+					count++;
+				}
+				if (e.content == '_') {
+					checker++;
+				}
+			}
+			if (n.start && (checker == 0 || count > 1)) {
 				return false;
 			}
-			if (!n.start && checker < 2) {
+			if (!n.start && (checker < 2 || count > 2)) {
 				return false;
 			}
 			checker = 0;
+			count = 0;
+			
+			
 		}
+		
+		for (Node e : current.friends) {
+			if (e.content == color) {
+				checker++;
+				count++;
+			}
+			if (e.content == '_') {
+				checker++;
+			}
+		}
+		if (current.start && (checker == 0 || count > 1)) {
+			return false;
+		}
+		if (!current.start && (checker < 2 || count > 2)) {
+			return false;
+		}
+		checker = 0;
+		count = 0;
 		
 		//checking that there is no triple next to it.
 		
-		int count = 0;
-		for (Node n : current.friends) {
-			if (n.content == current.content) count++;	
-			if (count > 2) return false;
-			count = 0;
-		}
+//
+//		for (Node n : current.friends) {
+//			if (n.content == current.content) count++;	
+//			if (count > 2) return false;
+//			count = 0;
+//		}
 
 		
 		// if there is no clash, it's safe 
