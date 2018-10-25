@@ -13,7 +13,7 @@ public class Main {
 	 * 				Maybe:	Each color must be touching another of its own color twice unless it is a start/end node in which case it can only touch one of its own color
 	 * 						(i,j) -> (i+1,j),(i-1,j),(i,j+1),(i,j-1) -> At least one of which must be the same as (i,j) but no more than two can be the same)
 	 * 
-	 * FUN FACT: This is not a recursive back tracking problem. I'm changing it to something else
+	 * FUN FACT: This is not a recursive back tracking problem. I'm changing it to something else. But wait it still is so you are wrong!
 	 * 
 	 * 
 	 * Backtracking search : Just need to define quitting condition that all spaces are filled and *!*!*!*!**!All start and ends are connected/paths are full
@@ -161,7 +161,7 @@ public class Main {
 		}
 		
 		int checker = 0;
-		int count = 0;
+		int numOfSameColor = 0;
 		for(Node n : current.friends) {
 			boolean ch = true;
 			if (n.content == '_') { // all this stuff i checking for corner issues
@@ -187,30 +187,30 @@ public class Main {
 			//add check for the spot itself is safe
 			
 			
-			if (n.content == color) {
+			if (n.content == color) { // is the friend the same color as the color we are checking for?
 				checker++;
-				count++;
+				numOfSameColor++;
 			}
-			for (Node e : n.friends) {
+			for (Node e : n.friends) { // go through all of current nodes friends' friends
 				if (e == current) {
 					continue;
 				}
 				if (e.content == n.content) {
 					checker++;
-					count++;
+					numOfSameColor++;
 				}
 				if (e.content == '_') {
 					checker++;
 				}
 			}
-			if (n.start && (checker == 0 || count > 1)) {
+			if (n.start && (checker == 0 || numOfSameColor > 1)) {
 				return false;
 			}
-			if (!n.start && (checker < 2 || count > 2)) {
+			if (!n.start && (checker < 2 || numOfSameColor > 2)) {
 				return false;
 			}
 			checker = 0;
-			count = 0;
+			numOfSameColor = 0;
 			
 			
 		}
@@ -218,20 +218,20 @@ public class Main {
 		for (Node e : current.friends) {
 			if (e.content == color) {
 				checker++;
-				count++;
+				numOfSameColor++;
 			}
 			if (e.content == '_') {
 				checker++;
 			}
 		}
-		if (current.start && (checker == 0 || count > 1)) {
+		if (current.start && (checker == 0 || numOfSameColor > 1)) {
 			return false;
 		}
-		if (!current.start && (checker < 2 || count > 2)) {
+		if (!current.start && (checker < 2 || numOfSameColor > 2)) {
 			return false;
 		}
 		checker = 0;
-		count = 0;
+		numOfSameColor = 0;
 		
 		//checking that there is no triple next to it.
 		
