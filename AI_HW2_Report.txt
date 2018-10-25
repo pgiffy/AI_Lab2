@@ -1,0 +1,19 @@
+Artificial Intelligence Lab 2 Report
+
+Peter Gifford and Sam Behrens
+
+We wrote all of the code for this lab in java so that we could use nodes and objects very easily. When implementing the original dumb approach we had a harder time implementing the solution than expecting because the constraints were not the obvious ones that we thought of first. In the end we had constraints that checked if placing a color would make it impossible for itself or any of the nodes next to it from moving farther along their path. In the process of implementing this we attached the possible colors to try to each individual node so that we could switch the order for heuristics at a later date. We used the following for the CSP:
+
+Variables: X sub(ij)  -- i is rox and j is column
+
+Domain: { Set of letters present in the given graph }
+
+Constraints: All board spots must have a color.
+             (i,j) -> (i+1,j),(i-1,j),(i,j+1),(i,j-1) -> For each of these there must be           at least two of the same color or empty spaces next to it. This case must also hold for (i, j).
+	     
+
+Statements of Individual Contribution:
+
+Peter Gifford - I wrote the initial implementation and established the "dumb" solution that worked for all the graphs except the 12 and 14 sized ones.
+
+Sam Behrens -
