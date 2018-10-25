@@ -13,6 +13,7 @@ public class Node {
     int X;
     int Y;
     char content;
+    
 
     public Node(int nodeId, char inside, int xSpot, int ySpot){ 
     	id = nodeId;
@@ -20,6 +21,8 @@ public class Node {
     	X = xSpot;
     	Y = ySpot;
     }
+    
+   
     
     public void setCharacters(char[] chars) {letters = chars;}
     

@@ -29,7 +29,7 @@ public class Main {
 		Scanner scan;
 		String fileOut = "output.txt";
 		PrintWriter out;
-		String fileName = "5x5maze.txt";
+		String fileName = "10x10maze.txt";
 
 		try {
 			out = new PrintWriter(new File(fileOut));
@@ -162,28 +162,9 @@ public class Main {
 		int count = 0;
 		for(Node n : current.friends) {
 			boolean ch = true;
-			if (n.content == '_') { // all this stuff i checking for corner issues
-//				for (Node g : n.friends) {
-//					if (g.content == '_' && g != current) {
-//						ch = false;
-//						break;
-//					}
-//					if (g.content == color) {
-//						ch = false;
-//						break;
-//					}
-//					if (!g.start) {
-//						count++;
-//					}
-//				}
-//				if (ch && count == 0) {
-//					return false;
-//				}
+			if (n.content == '_') { 
 				continue;
 			}
-			
-			//add check for the spot itself is safe
-			
 			
 			if (n.content == color) {
 				checker++;
@@ -231,14 +212,7 @@ public class Main {
 		checker = 0;
 		count = 0;
 		
-		//checking that there is no triple next to it.
-		
-//
-//		for (Node n : current.friends) {
-//			if (n.content == current.content) count++;	
-//			if (count > 2) return false;
-//			count = 0;
-//		}
+
 
 		
 		// if there is no clash, it's safe 
