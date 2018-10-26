@@ -13,10 +13,8 @@ public class Main {
 	 * 				Maybe:	Each color must be touching another of its own color twice unless it is a start/end node in which case it can only touch one of its own color
 	 * 						(i,j) -> (i+1,j),(i-1,j),(i,j+1),(i,j-1) -> At least one of which must be the same as (i,j) but no more than two can be the same)
 	 * 
-	 * FUN FACT: This is not a recursive back tracking problem. I'm changing it to something else. But wait it still is so you are wrong!
 	 * 
 	 * 
-	 * Backtracking search : Just need to define quitting condition that all spaces are filled and *!*!*!*!**!All start and ends are connected/paths are full
 	 * 
 	 * Heuristics Chosen : None
 	 * 
@@ -234,7 +232,6 @@ public class Main {
 	public static boolean backTracking(Tree board) { 
 		Node current = null;
 	    boolean isComplete = true;
-	    //need to also check starts and ends are connected
 	    for (Node n : board.nodes) { // checking if board is complete i.e. no spaces with '_'
 	            if (n.content == '_')  { 
 	            	current = n;
