@@ -29,7 +29,7 @@ public class Main {
 		Scanner scan;
 		String fileOut = "output.txt";
 		PrintWriter out;
-		String fileName = "5x5maze.txt";
+		String fileName = "10x10maze.txt";
 
 		try {
 			out = new PrintWriter(new File(fileOut));
@@ -156,57 +156,42 @@ public class Main {
 	 */
 	
 	public static boolean isSafe(Node current, char color) { 
-		if (current.content != '_') {
+		
+		if (current.content != '_') { // if there is already a letter there then it cannot be checked
 			return false;
 		}
+		
 		
 		int checker = 0;
 		int numOfSameColor = 0;
 		for(Node n : current.friends) {
-			//boolean ch = true; // this wasn't doing anything ??
-			if (n.content == '_') { // all this stuff i checking for corner issues
-//				for (Node g : n.friends) {
-//					if (g.content == '_' && g != current) {
-//						ch = false;
-//						break;
-//					}
-//					if (g.content == color) {
-//						ch = false;
-//						break;
-//					}
-//					if (!g.start) {
-//						count++;
-//					}
-//				}
-//				if (ch && count == 0) {
-//					return false;
-//				}
+			if (n.content == '_') { //if its blank we dont need to check it
 				continue;
 			}
 			
-			//add check for the spot itself is safe
+
+			//this whole next section is just checking for if the nodes next to the current one will have at least two ways out if the current node is set to the current color option
 			
-			
-			if (n.content == color) { // is the friend the same color as the color we are checking for?
+			if (n.content == color) { //checking if the friends color is the same as the one that we are checking if it is ok to put there because if it is then the current node will be giving it a path out
 				checker++;
 				numOfSameColor++;
 			}
-			for (Node e : n.friends) { // go through all of current nodes friends' friends
+			for (Node e : n.friends) { // go through all of current nodes friends' friends - except for the current node itself hense the check above
 				if (e == current) {
 					continue;
 				}
-				if (e.content == n.content) {
+				if (e.content == n.content) { // one of the other nodes has the same color
 					checker++;
 					numOfSameColor++;
 				}
-				if (e.content == '_') {
+				if (e.content == '_') { // a blank space is still an opportunity to get out
 					checker++;
 				}
 			}
-			if (n.start && (checker == 0 || numOfSameColor > 1)) {
+			if (n.start && (checker == 0 || numOfSameColor > 1)) { // check for start nodes since they only need one way out
 				return false;
 			}
-			if (!n.start && (checker < 2 || numOfSameColor > 2)) {
+			if (!n.start && (checker < 2 || numOfSameColor > 2)) { // check for all the other nodes
 				return false;
 			}
 			checker = 0;
@@ -215,7 +200,7 @@ public class Main {
 			
 		}
 		
-		for (Node e : current.friends) {
+		for (Node e : current.friends) { // check like the one above, but for the current node (will is get trapped)
 			if (e.content == color) {
 				checker++;
 				numOfSameColor++;
@@ -224,7 +209,7 @@ public class Main {
 				checker++;
 			}
 		}
-		if (current.start && (checker == 0 || numOfSameColor > 1)) {
+		if (current.start && (checker == 0 || numOfSameColor > 1)) { // I realize we dont need this but lets leave it anyway
 			return false;
 		}
 		if (!current.start && (checker < 2 || numOfSameColor > 2)) {
@@ -233,14 +218,7 @@ public class Main {
 		checker = 0;
 		numOfSameColor = 0;
 		
-		//checking that there is no triple next to it.
-		
-//
-//		for (Node n : current.friends) {
-//			if (n.content == current.content) count++;	
-//			if (count > 2) return false;
-//			count = 0;
-//		}
+
 
 		
 		// if there is no clash, it's safe 
