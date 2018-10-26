@@ -163,7 +163,7 @@ public class Main {
 		int checker = 0;
 		int numOfSameColor = 0;
 		for(Node n : current.friends) {
-			boolean ch = true;
+			//boolean ch = true; // this wasn't doing anything ??
 			if (n.content == '_') { // all this stuff i checking for corner issues
 //				for (Node g : n.friends) {
 //					if (g.content == '_' && g != current) {
