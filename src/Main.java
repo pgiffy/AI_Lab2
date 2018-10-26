@@ -174,7 +174,7 @@ public class Main {
 				checker++;
 				numOfSameColor++;
 			}
-			for (Node e : n.friends) { // go through all of current nodes friends' friends - except for the current node itself hense the check above
+			for (Node e : n.friends) { // go through all of current nodes friends' friends - except for the current node itself hence the check above
 				if (e == current) {
 					continue;
 				}
@@ -213,11 +213,6 @@ public class Main {
 		if (!current.start && (checker < 2 || numOfSameColor > 2)) {
 			return false;
 		}
-		checker = 0;
-		numOfSameColor = 0;
-		
-
-
 		
 		// if there is no clash, it's safe 
 		return true; 
