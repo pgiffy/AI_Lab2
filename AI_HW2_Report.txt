@@ -16,4 +16,4 @@ Statements of Individual Contribution:
 
 Peter Gifford - I wrote the initial implementation and established the "dumb" solution that worked for all the graphs except the 12 and 14 sized ones.
 
-Sam Behrens -
+Sam Behrens - Hi that is me
