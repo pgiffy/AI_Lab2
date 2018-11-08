@@ -16,7 +16,10 @@ Statements of Individual Contribution:
 
 Peter Gifford - I wrote the initial implementation and established the "dumb" solution that worked for all the graphs except the 12 and 14 sized ones.
 
-Sam Behrens - Hi that is me
+Sam Behrens - I took Peter's "dumb" solution and added heuristics to make it a smart solution and improve the performance. It works for all sizes of graphs.
+
+Analysis: 
+
 
 7x7maze
 
