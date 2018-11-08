@@ -9,7 +9,7 @@ Variables: X sub(ij)  -- i is rox and j is column
 Domain: { Set of letters present in the given graph }
 
 Constraints: All board spots must have a color.
-             (i,j) -> (i+1,j),(i-1,j),(i,j+1),(i,j-1) -> For each of these there must be           at least two of the same color or empty spaces next to it. This case must also hold for (i, j).
+(i,j) -> (i+1,j),(i-1,j),(i,j+1),(i,j-1) -> For each of these there must be at least two of the same color or empty spaces next to it. This case must also hold for (i, j).
 	     
 
 Statements of Individual Contribution:
@@ -17,3 +17,135 @@ Statements of Individual Contribution:
 Peter Gifford - I wrote the initial implementation and established the "dumb" solution that worked for all the graphs except the 12 and 14 sized ones.
 
 Sam Behrens - Hi that is me
+
+7x7maze
+
+Solution:
+GGGOOOO
+GBGGGYO
+GBBBRYO
+GYYYRYO
+GYRRRYO
+GYRYYYO
+GYYYOOO
+
+"Dumb"
+Checks: 211
+Time: 2ms
+
+"Smart"
+Checks: 188
+Time: 2ms
+
+8x8maze
+
+Solution:
+YYYRRRGG
+YBYPPRRG
+YBOOPGRG
+YBOPPGGG
+YBOOOOYY
+YBBBBOQY
+YQQQQQQY
+YYYYYYYY
+
+"Dumb"
+Checks: 383
+Time: 5ms
+
+"Smart"
+Checks: 188
+Time: 1ms
+
+9x9maze
+
+Solution:
+DBBBOKKKK
+DBOOORRRK
+DBRQQQQRK
+DBRRRRRRK
+GGKKKKKKK
+GKKPPPPPG
+GKYYYYYPG
+GKKKKKKPG
+GGGGGGGGG
+
+"Dumb"
+Checks: 2423
+Time: 11ms
+
+"Smart"
+Checks: 452
+Time: 4ms
+
+10x10maze
+
+Solution:
+RGGGGGGGGG
+RRRROOOOOG
+YYPRQQQQQG
+YPPRRRRRRG
+YPGGBBBBRG
+YPPGBRRBRG
+YYPGBRBBRG
+PYPGBRRRRG
+PYPGBBBBBG
+PPPGGGGGGG
+
+"Dumb"
+Checks: 44361
+Time: 126ms
+
+"Smart"
+Checks: 428749
+Time: 371ms
+
+12x12maze
+
+Solution:
+KKKKKKKKKKKK
+KOOOOOOOOOOK
+KOKKKKYYGGOK
+KOKYYYYGGOOK
+KOKPPOOOOOQK
+KKKRPOQQQQQK
+RRRRPAARKKKK
+RGGGGAWRRRRR
+RAAAAAWWWWWR
+RABBBBBBBBBR
+RAAAAAAAAAAR
+RRRRRRRRRRRR
+
+"Dumb"
+Checks: 199368
+Time: 269ms
+
+"Smart"
+Checks: 196493
+Time: 235ms
+
+14x14maze
+
+Solution:
+OOOOWWWWWKKKKK
+OBBOWAAAWKPPPK
+OOBOWWWAWKPRPK
+DOBOOAAAWKPRKK
+DOBBOOOOBKPRKG
+DOYBBBBBBKPRKG
+DDYYYYYYYDPRKG
+GDDDDDDDYDPRKG
+GRRRRRRDYDPRKG
+GRQQQQQDDDPRKG
+GRQPPPPPPPPRKG
+GRQPRRRRRRRRKG
+GRRRRKKKKKKKKG
+GGGGGGGGGGGGGG
+
+"Dumb"
+Checks: 30682634
+Time: 11676ms
+
+"Smart"
+Checks: 18917225
+Time: 8316ms

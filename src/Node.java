@@ -9,6 +9,7 @@ public class Node {
 	char[] letters;
 	ArrayList<Node> tail = new ArrayList<>();
     ArrayList<Node> friends = new ArrayList<>();
+    ArrayList<Character> leet = new ArrayList<>();
     int id;
     int X;
     int Y;
@@ -36,6 +37,10 @@ public class Node {
     
     public int getX() { return X; }
     public int getY() { return Y; }
+    
+//    public int getConstrainedness() {
+//    	return constrainedness;
+//    }
     
     public String toString() { return "<" + id + ">"; }
 }
