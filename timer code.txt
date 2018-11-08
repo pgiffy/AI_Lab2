@@ -1,0 +1,8 @@
+long startTime = System.nanoTime();
+
+//code to be timed
+
+long endTime   = System.nanoTime();
+long totalTime = endTime - startTime;
+long seconds = totalTime/1000;
+System.out.println(seconds);
