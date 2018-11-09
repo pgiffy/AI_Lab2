@@ -18,8 +18,10 @@ Peter Gifford - I wrote the initial implementation and established the "dumb" so
 
 Sam Behrens - I took Peter's "dumb" solution and added heuristics to make it a smart solution and improve the performance. It works for all sizes of graphs.
 
-Analysis: 
+Backtracking Implementation: 
+To implement the dumb backtracking solution we used the constraints listed above in the report. Discovering these in themselves proved to be challenging. Initially the constraints we thought would work corresponded with the way that a human would play the game. This meant that they revolved around touching another node of the same color and connecting paths. These quickely proved theselves to not work because the program was just searching random spot rather than starting at filled in nodes and branching out. When this was discovered we had to do some reevaluating to figure out what conditions were needed to place a node on a spot on the board somewhat out of context. This resulted in the final constraints above that are focused around trapping another node on the board with a current placement.
 
+Smart solution Implementation Description:
 
 7x7maze
 
@@ -152,3 +154,7 @@ Time: 11676ms
 "Smart"
 Checks: 18917225
 Time: 8316ms
+
+
+Analysis: 
+These results proved to be what we expected in all cases except the 10x10 maze. In all cases implementing the hueristic improved both the number of steps and the time it took to find the solution. Looking back on the 10x10, we realize that it is worse because the answer to the puzzle is very windy. Our hueristic focuses on using proximity to order the attempted colors correctly before using an attempt to check. Therefore when the 10x10 had an answer that had a lot of the nodes go very far away from their origin points, the hueritic performed poorly. While this is disipointing, it is the nature of any hueristic. In many cases it erformed well, but it can only predict so much based on the information it is provided, in this case distance. Other than that, as the dimensiones increased the difficulty went up and therefore the time and steps needed to solve the puzzle increased as expected.
