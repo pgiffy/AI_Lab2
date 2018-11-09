@@ -1,9 +1,9 @@
 import java.util.*;
 //should be named graph or network, this wound up not technically being a tree
-public class Tree {
+public class Graph {
 	ArrayList<Node> nodes = new ArrayList<>();
 	
-	public Tree() {
+	public Graph() {
         nodes = new ArrayList<>();
     }
 

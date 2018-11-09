@@ -9,7 +9,7 @@ public class Node {
 	char[] letters;
 	ArrayList<Node> tail = new ArrayList<>();
     ArrayList<Node> friends = new ArrayList<>();
-    ArrayList<Character> leet = new ArrayList<>();
+    ArrayList<Character> possibleLetters = new ArrayList<>();
     int id;
     int X;
     int Y;
